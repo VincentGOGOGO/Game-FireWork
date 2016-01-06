@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://gamecfg.jd.com/rocketJoy/client/js/lib/jquery-2.1.1.min.js"></script>
+    <script src="underscore.js"></script>
+    <style>
+        body{
+            margin: 0px;
+            padding: 0px;
+        }
+        .container{
+            background-color: rgba(0,0,0,1);
+             width: 1136px;
+            height: 640px;
+
+            overflow-y: scroll;
+        }
+        .item{
+            width: 300px;
+            height: 270px;
+            background-color: #000;
+            margin: 35px;
+            float: left;
+            border: 1px #ccc solid;
+        }
+
+        .item  .item_img{
+            width: 300px;
+            height: 175px;
+
+        }
+        .item  .item_img img{
+            width: 100%;
+            height: 100%;
+        }
+
+        .item  .item_name{
+             height: 50px;
+              line-height: 50px;
+              margin-top: 20px;
+              text-align: center;
+              font-size: 24px;
+              font-weight: bold;
+              overflow: hidden;
+              width: 80%;
+              margin-left: auto;
+              margin-right: auto;
+              color: #fff;
+        }
+        .item  .ding{
+            height: 50px;
+            line-height: 50px;
+            padding-left: 200px;
+
+        }
+        .item  .ding img {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            top: 12px;
+            margin-right: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container"></div>
+
+<script>
+    var tpl=[
+            '<div class="item" p_data=\'{{ particle_data }}\'>',
+        '<div class="item_img"> <img src="{{particle_img}}"  /></div>',
+       ' <div class="item_name">{{particle_name}}</div>',
+    '</div>'
+
+
+    ].join('');
+
+    $.getJSON("/getParticleList/",function(data){
+        var html=[];
+        for(var i in data){
+            var obj=data[i];
+            var _html=Mustache.render(tpl,obj);
+            html.push(_html);
+
+        }
+
+        $(".container").append(html.join(''))
+
+    });
+
+    $(".container").delegate(".");
+$(".ding").bind("click",function(e){
+    $.get("addParticle/?id="+$(this).attr("p_id"),function(e){
+
+
+    })
+});
+
+</script>
+</body>
+</html>
